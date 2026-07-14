@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import { CHARACTERS, ROOMS, ALGRIM_LINES, MONK_HINTS, type Character } from "@/lib/game-data";
 import { GameShell } from "@/components/game/GameShell";
 
