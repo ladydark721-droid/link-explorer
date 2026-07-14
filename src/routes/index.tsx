@@ -2,6 +2,15 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { CHARACTERS, ROOMS, ALGRIM_LINES, MONK_HINTS, type Character } from "@/lib/game-data";
 import { GameShell } from "@/components/game/GameShell";
+import charKael from "@/assets/char-kael.jpg";
+import charElara from "@/assets/char-elara.jpg";
+import charSerena from "@/assets/char-serena.jpg";
+import charMarcus from "@/assets/char-marcus.jpg";
+import roomFire from "@/assets/room-fire.jpg";
+import roomWater from "@/assets/room-water.jpg";
+import roomEarth from "@/assets/room-earth.jpg";
+import roomAir from "@/assets/room-air.jpg";
+import heartGlacia from "@/assets/heart-glacia.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -20,6 +29,15 @@ export const Route = createFileRoute("/")({
   }),
   component: MasmorraGame,
 });
+
+const CHAR_IMAGES: Record<string, string> = {
+  kael: charKael,
+  elara: charElara,
+  serena: charSerena,
+  marcus: charMarcus,
+};
+
+const ROOM_IMAGES = [roomFire, roomWater, roomEarth, roomAir];
 
 type Screen =
   | { kind: "title" }
@@ -49,7 +67,6 @@ function MasmorraGame() {
   const [algrimIdx, setAlgrimIdx] = useState(0);
   const [showAlgrim, setShowAlgrim] = useState(false);
   const [showMonk, setShowMonk] = useState<number | null>(null);
-  // Ability state
   const [healUsed, setHealUsed] = useState(false);
   const [transmuteUsed, setTransmuteUsed] = useState(false);
   const [senseUsedInRoom, setSenseUsedInRoom] = useState(false);
@@ -89,7 +106,6 @@ function MasmorraGame() {
 
   function advanceQuestion(playing: Extract<Screen, { kind: "playing" }>, gotIt: boolean) {
     const newCorrect = playing.correctInRoom + (gotIt ? 1 : 0);
-    // Room clear condition
     if (newCorrect >= NEED_CORRECT) {
       setScreen({ kind: "room-outro", roomIdx: playing.roomIdx });
       return;
@@ -97,7 +113,6 @@ function MasmorraGame() {
     const room = ROOMS[playing.roomIdx];
     const nextQ = playing.qIdx + 1;
     if (nextQ >= room.questions.length) {
-      // Ran out of questions without hitting 3
       setScreen({ kind: "gameover" });
       return;
     }
@@ -124,12 +139,7 @@ function MasmorraGame() {
         advanceQuestion(screen, true);
       }, 900);
     } else {
-      // Check transmute ability
-      let effectiveHp = hp - 1;
-      let gotIt = false;
-      if (character?.id === "marcus" && !transmuteUsed) {
-        // Auto-offer? We'll make Marcus's ability manual (button). So no auto here.
-      }
+      const effectiveHp = hp - 1;
       setFeedback("wrong");
       setHp(effectiveHp);
       setTimeout(() => {
@@ -140,8 +150,8 @@ function MasmorraGame() {
           setScreen({ kind: "gameover" });
           return;
         }
-        advanceQuestion(screen, gotIt);
-      }, 1100);
+        advanceQuestion(screen, false);
+      }, 1200);
     }
   }
 
@@ -153,9 +163,8 @@ function MasmorraGame() {
 
   function useTransmute() {
     if (transmuteUsed || screen.kind !== "playing" || !locked || feedback !== "wrong") return;
-    // Convert wrong to right: cancel HP loss, mark correct.
     setTransmuteUsed(true);
-    setHp((h) => Math.min(MAX_HP, h + 1)); // refund the lost HP
+    setHp((h) => Math.min(MAX_HP, h + 1));
     setFeedback("correct");
     setTimeout(() => {
       setFeedback(null);
@@ -177,7 +186,6 @@ function MasmorraGame() {
     if (listenUsedInRoom || screen.kind !== "playing") return;
     const room = ROOMS[screen.roomIdx];
     const q = room.questions[screen.qIdx];
-    // Eliminate one wrong option (that isn't already eliminated)
     const wrongs = q.options.map((_, i) => i).filter((i) => i !== q.answer && !eliminated.includes(i));
     if (wrongs.length === 0) return;
     const pick = wrongs[Math.floor(Math.random() * wrongs.length)];
@@ -212,10 +220,7 @@ function MasmorraGame() {
         />
       )}
       {screen.kind === "room-intro" && (
-        <RoomIntro
-          roomIdx={screen.roomIdx}
-          onEnter={() => enterRoom(screen.roomIdx)}
-        />
+        <RoomIntro roomIdx={screen.roomIdx} onEnter={() => enterRoom(screen.roomIdx)} />
       )}
       {screen.kind === "playing" && character && (
         <PlayingScreen
@@ -278,7 +283,6 @@ function MasmorraGame() {
         />
       )}
 
-      {/* NPC modals */}
       {showAlgrim && (
         <NpcModal
           name="Algrim"
@@ -299,26 +303,44 @@ function MasmorraGame() {
   );
 }
 
+/* ---------- Reusable ---------- */
+
+function Panel({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return (
+    <div className={`parchment illuminated rounded-md p-5 ${className}`}>
+      <span className="illum-corner tl" />
+      <span className="illum-corner tr" />
+      <span className="illum-corner bl" />
+      <span className="illum-corner br" />
+      <div className="relative">{children}</div>
+    </div>
+  );
+}
+
 /* ---------- Screens ---------- */
 
 function TitleScreen({ onStart, onCredits }: { onStart: () => void; onCredits: () => void }) {
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-8 text-center animate-rise">
       <div className="animate-flicker">
-        <p className="text-xs uppercase tracking-[0.4em] text-primary/80">Torre dos Quatro Ventos</p>
-        <h1 className="mt-3 text-4xl font-bold text-foreground drop-shadow-[0_0_20px_var(--color-poison)]">
+        <p className="gothic-serif text-[11px] uppercase tracking-[0.5em] text-[color:var(--color-blood)]">
+          Torre dos Quatro Ventos
+        </p>
+        <h1 className="blackletter mt-4 text-5xl leading-[0.95] text-[color:var(--color-ink)]">
           A Masmorra
           <br />
           dos Elementos
         </h1>
-        <p className="mt-4 text-sm italic text-muted-foreground">A masmorra pergunta. Você responde.</p>
+        <div className="gilded-rule mx-auto mt-5 w-48" />
+        <p className="mt-4 gothic-serif text-sm italic text-[color:var(--color-blood)]/80">
+          A masmorra pergunta. Você responde.
+        </p>
       </div>
-      <div className="my-4 h-px w-32 bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
       <div className="flex w-full flex-col gap-3">
-        <PrimaryButton onClick={onStart}>Iniciar Jornada</PrimaryButton>
-        <GhostButton onClick={onCredits}>Créditos</GhostButton>
+        <button onClick={onStart} className="btn-seal w-full">Iniciar Jornada</button>
+        <button onClick={onCredits} className="btn-ghost w-full">Créditos</button>
       </div>
-      <p className="mt-6 text-[10px] uppercase tracking-widest text-muted-foreground/60">
+      <p className="mt-2 gothic-serif text-[10px] uppercase tracking-[0.35em] text-[color:var(--color-ink)]/60">
         Química · Ensino Médio · Singleplayer
       </p>
     </div>
@@ -328,33 +350,40 @@ function TitleScreen({ onStart, onCredits }: { onStart: () => void; onCredits: (
 function Credits({ onBack }: { onBack: () => void }) {
   return (
     <div className="flex flex-1 flex-col justify-center gap-6 animate-rise">
-      <h2 className="text-center text-2xl">Créditos</h2>
-      <div className="stone-panel rounded-xl p-5 text-sm leading-relaxed text-muted-foreground">
-        <p className="mb-3 text-foreground">Um jogo educativo de Química.</p>
-        <p><span className="text-primary">Design & Narrativa:</span> Dark Lady</p>
-        <p><span className="text-primary">Conteúdo:</span> Radioatividade, Eletroquímica, Cinética, Equilíbrio & Termoquímica</p>
-        <p><span className="text-primary">Público:</span> Ensino Médio (16-18)</p>
+      <h2 className="text-center text-3xl blackletter">Créditos</h2>
+      <Panel>
+        <p className="mb-3 gothic-serif text-[color:var(--color-blood)]">Um jogo educativo de Química.</p>
+        <p><span className="gothic-serif text-[color:var(--color-blood)]">Design & Narrativa:</span> Dark Lady</p>
+        <p><span className="gothic-serif text-[color:var(--color-blood)]">Conteúdo:</span> Radioatividade, Eletroquímica, Cinética, Equilíbrio & Termoquímica</p>
+        <p><span className="gothic-serif text-[color:var(--color-blood)]">Público:</span> Ensino Médio (16–18)</p>
         <p className="mt-3 italic">"Quem acerta as perguntas, volta. Quem erra, vira história."</p>
-      </div>
-      <GhostButton onClick={onBack}>Voltar</GhostButton>
+      </Panel>
+      <button onClick={onBack} className="btn-ghost">Voltar</button>
     </div>
   );
 }
 
 function IntroScreen({ onNext }: { onNext: () => void }) {
   return (
-    <div className="flex flex-1 flex-col justify-between gap-6 py-4 animate-rise">
-      <h2 className="text-center text-xl">Dizem os mais velhos…</h2>
-      <div className="stone-panel rounded-xl p-5 text-sm leading-relaxed">
-        <p>O reino de <span className="text-primary">Aetheria</span> já foi lindo.</p>
-        <p className="mt-2">Mas tudo mudou quando o <span className="text-[color:var(--color-poison)]">Sussurro Verde</span> despertou. Um gás chamado <b>Cloro</b>. Invisível. Mortal.</p>
-        <p className="mt-2">Os rios viraram veneno. Os pássaros caíram do céu.</p>
-        <p className="mt-2">No fundo da <b>Torre dos Quatro Ventos</b> existe uma pedra que pode purificar tudo: o <span className="text-[color:var(--color-arcane)]">Coração de Glacia</span>.</p>
-        <p className="mt-2">Muitos tentaram. Nenhum voltou.</p>
-        <p className="mt-3 italic text-muted-foreground">Vocês são aprendizes de alquimia. Não heróis. Mas a torre não liga para títulos.</p>
-        <p className="mt-2 italic text-muted-foreground">Que a química esteja com vocês.</p>
-      </div>
-      <PrimaryButton onClick={onNext}>Escolher personagem</PrimaryButton>
+    <div className="flex flex-1 flex-col justify-between gap-6 py-2 animate-rise">
+      <h2 className="text-center text-2xl blackletter">Dizem os mais velhos…</h2>
+      <Panel className="text-[15px] leading-relaxed">
+        <p className="dropcap">
+          O reino de <b>Aetheria</b> já foi belo. Mas tudo mudou quando o <span className="text-[color:var(--color-poison)] font-semibold">Sussurro Verde</span> despertou —
+          um gás chamado <b>Cloro</b>. Invisível. Mortal.
+        </p>
+        <p className="mt-3">Os rios viraram veneno. Os pássaros caíram do céu.</p>
+        <p className="mt-3">
+          No fundo da <b>Torre dos Quatro Ventos</b> existe uma pedra capaz de purificar tudo:
+          o <span className="text-[color:var(--color-ice)] font-semibold">Coração de Glacia</span>.
+        </p>
+        <p className="mt-3">Muitos tentaram. Nenhum voltou.</p>
+        <p className="mt-4 italic">
+          Vocês são aprendizes de alquimia. Não heróis. Mas a torre não liga para títulos.
+        </p>
+        <p className="mt-2 italic">Que a química esteja com vocês.</p>
+      </Panel>
+      <button onClick={onNext} className="btn-seal">Escolher personagem</button>
     </div>
   );
 }
@@ -363,30 +392,43 @@ function ChooseCharacter({ onPick }: { onPick: (c: Character) => void }) {
   return (
     <div className="flex flex-1 flex-col gap-4 py-2 animate-rise">
       <div className="text-center">
-        <h2 className="text-2xl">Escolha sua Alma</h2>
-        <p className="mt-1 text-xs text-muted-foreground">A torre respeita quem sabe o que carrega.</p>
+        <h2 className="text-3xl blackletter">Escolha sua Alma</h2>
+        <p className="mt-1 gothic-serif text-xs text-[color:var(--color-ink)]/70">
+          A torre respeita quem sabe o que carrega.
+        </p>
       </div>
       <div className="grid grid-cols-1 gap-3">
         {CHARACTERS.map((c) => (
           <button
             key={c.id}
             onClick={() => onPick(c)}
-            className="stone-panel group flex items-center gap-4 rounded-xl p-4 text-left transition hover:scale-[1.02] hover:border-primary/60"
-            style={{ borderColor: c.color + "55" }}
+            className="parchment illuminated group flex items-center gap-4 rounded-md p-3 text-left transition hover:-translate-y-[2px] hover:shadow-2xl"
           >
-            <div
-              className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full text-2xl animate-pulse-glow"
-              style={{ background: `radial-gradient(circle, ${c.color}33, transparent 70%)`, color: c.color }}
-            >
-              {c.glyph}
+            <span className="illum-corner tl" />
+            <span className="illum-corner tr" />
+            <span className="illum-corner bl" />
+            <span className="illum-corner br" />
+            <div className="plate relative h-24 w-20 shrink-0 overflow-hidden rounded">
+              <img
+                src={CHAR_IMAGES[c.id]}
+                alt={c.name}
+                width={768}
+                height={1024}
+                loading="lazy"
+                className="h-full w-full object-cover"
+              />
             </div>
-            <div className="flex-1">
+            <div className="relative flex-1">
               <div className="flex items-baseline gap-2">
-                <p className="text-lg text-foreground">{c.name}</p>
-                <p className="text-xs italic text-muted-foreground">{c.title}</p>
+                <p className="gothic-serif text-xl text-[color:var(--color-ink)]">{c.name}</p>
+                <p className="text-xs italic text-[color:var(--color-ink)]/70">— {c.title}</p>
               </div>
-              <p className="mt-1 text-xs text-primary">{c.ability}</p>
-              <p className="mt-0.5 text-xs leading-snug text-muted-foreground">{c.abilityDesc}</p>
+              <p className="mt-1 gothic-serif text-xs uppercase tracking-widest text-[color:var(--color-blood)]">
+                {c.ability}
+              </p>
+              <p className="mt-1 text-[13px] leading-snug text-[color:var(--color-ink)]/85">
+                {c.abilityDesc}
+              </p>
             </div>
           </button>
         ))}
@@ -398,20 +440,33 @@ function ChooseCharacter({ onPick }: { onPick: (c: Character) => void }) {
 function RoomIntro({ roomIdx, onEnter }: { roomIdx: number; onEnter: () => void }) {
   const room = ROOMS[roomIdx];
   return (
-    <div className="flex flex-1 flex-col justify-between gap-6 py-4 animate-rise">
+    <div className="flex flex-1 flex-col justify-between gap-5 py-2 animate-rise">
       <div className="text-center">
-        <p className="text-xs uppercase tracking-[0.4em] text-primary/70">Andar {room.id} — {room.element}</p>
-        <h2 className="mt-2 text-2xl" style={{ color: room.color }}>{room.title}</h2>
-        <p className="text-xs italic text-muted-foreground">{room.theme}</p>
+        <p className="gothic-serif text-xs uppercase tracking-[0.4em] text-[color:var(--color-blood)]/80">
+          Andar {room.id} — {room.element}
+        </p>
+        <h2 className="mt-2 text-3xl blackletter">{room.title}</h2>
+        <p className="gothic-serif text-xs italic text-[color:var(--color-ink)]/70">{room.theme}</p>
       </div>
-      <div className="stone-panel rounded-xl p-5 text-sm leading-relaxed">
-        <p>{room.intro}</p>
-        <div className="mt-4 flex items-center justify-between border-t border-border/50 pt-3 text-xs text-muted-foreground">
-          <span>Acerte <b className="text-primary">{NEED_CORRECT}</b> perguntas</span>
+      <div className="plate mx-auto w-full overflow-hidden rounded animate-ember">
+        <img
+          src={ROOM_IMAGES[roomIdx]}
+          alt={room.title}
+          width={1024}
+          height={768}
+          loading="lazy"
+          className="h-40 w-full object-cover"
+        />
+      </div>
+      <Panel className="text-[15px] leading-relaxed">
+        <p className="dropcap">{room.intro}</p>
+        <div className="gilded-rule my-3" />
+        <div className="flex items-center justify-between gothic-serif text-xs text-[color:var(--color-ink)]/80">
+          <span>Acerte <b>{NEED_CORRECT}</b> perguntas</span>
           <span>Perde 1 PV por erro</span>
         </div>
-      </div>
-      <PrimaryButton onClick={onEnter}>Entrar na sala</PrimaryButton>
+      </Panel>
+      <button onClick={onEnter} className="btn-seal">Entrar na sala</button>
     </div>
   );
 }
@@ -444,23 +499,26 @@ function PlayingScreen(props: {
   const room = ROOMS[props.roomIdx];
   const question = room.questions[props.qIdx];
   const bg = props.feedback === "correct" ? "animate-correct" : props.feedback === "wrong" ? "animate-wrong" : "";
-
-  const monkIdx = props.roomIdx; // one monk per room
+  const monkIdx = props.roomIdx;
 
   return (
-    <div className={`flex flex-1 flex-col gap-4 py-2 ${bg}`}>
+    <div className={`flex flex-1 flex-col gap-3 py-2 ${bg}`}>
       {/* HUD */}
-      <div className="flex items-center justify-between text-xs">
+      <div className="flex items-center justify-between">
         <div>
-          <p className="text-[10px] uppercase tracking-widest text-muted-foreground">{room.title}</p>
-          <p className="text-primary">Acertos: {props.correctInRoom}/{NEED_CORRECT}</p>
+          <p className="gothic-serif text-[10px] uppercase tracking-[0.3em] text-[color:var(--color-ink)]/70">
+            {room.title}
+          </p>
+          <p className="gothic-serif text-sm text-[color:var(--color-blood)]">
+            Acertos: <b>{props.correctInRoom}/{NEED_CORRECT}</b>
+          </p>
         </div>
         <div className="flex items-center gap-1" aria-label={`Vida: ${props.hp} de ${MAX_HP}`}>
           {Array.from({ length: MAX_HP }).map((_, i) => (
             <span
               key={i}
               className="text-lg leading-none transition"
-              style={{ color: i < props.hp ? "var(--color-blood)" : "oklch(0.3 0.02 240)" }}
+              style={{ color: i < props.hp ? "var(--color-blood)" : "oklch(0.55 0.03 40 / 45%)" }}
             >
               ♥
             </span>
@@ -468,11 +526,27 @@ function PlayingScreen(props: {
         </div>
       </div>
 
-      {/* Question */}
-      <div className="stone-panel rune-border rounded-xl p-4 animate-rise">
-        <p className="text-[10px] uppercase tracking-widest text-muted-foreground">{room.theme}</p>
-        <h3 className="mt-1 text-base leading-snug text-foreground">{question.q}</h3>
+      {/* Room banner */}
+      <div className="plate overflow-hidden rounded">
+        <img
+          src={ROOM_IMAGES[props.roomIdx]}
+          alt={room.title}
+          width={1024}
+          height={768}
+          loading="lazy"
+          className="h-24 w-full object-cover"
+        />
       </div>
+
+      {/* Question */}
+      <Panel className="animate-rise">
+        <p className="gothic-serif text-[10px] uppercase tracking-[0.35em] text-[color:var(--color-blood)]/80">
+          {room.theme}
+        </p>
+        <h3 className="mt-1 gothic-serif text-lg leading-snug text-[color:var(--color-ink)]">
+          {question.q}
+        </h3>
+      </Panel>
 
       {/* Options */}
       <div className="flex flex-col gap-2">
@@ -487,16 +561,20 @@ function PlayingScreen(props: {
               key={i}
               disabled={props.locked || isEliminated}
               onClick={() => props.onSelect(i)}
-              className={`stone-panel rounded-lg px-3 py-3 text-left text-sm transition disabled:opacity-40 ${
-                isSelected ? "border-primary ring-2 ring-primary/60" : ""
-              } ${showCorrect ? "!border-[color:var(--color-poison)] ring-[color:var(--color-poison)]" : ""} ${
-                showWrong ? "!border-[color:var(--color-blood)] ring-[color:var(--color-blood)]" : ""
-              } ${isEliminated ? "line-through" : ""}`}
+              className={`rune-btn rounded-md px-3 py-3 text-left text-[15px] ${
+                isSelected && !showCorrect && !showWrong
+                  ? "ring-2 ring-[color:var(--color-blood)]"
+                  : ""
+              } ${showCorrect ? "is-correct" : ""} ${showWrong ? "is-wrong" : ""} ${
+                isEliminated ? "is-eliminated" : ""
+              }`}
             >
-              <span className="mr-2 text-primary/70">{String.fromCharCode(65 + i)}.</span>
+              <span className="mr-2 gothic-serif text-[color:var(--color-blood)]">
+                {String.fromCharCode(65 + i)}.
+              </span>
               {opt}
               {revealHere && (
-                <span className="ml-2 text-[10px] italic text-muted-foreground">
+                <span className="ml-2 text-[11px] italic text-[color:var(--color-ink)]/70">
                   ({props.senseReveal!.correct ? "sinto verdade" : "sinto engano"})
                 </span>
               )}
@@ -505,18 +583,22 @@ function PlayingScreen(props: {
         })}
       </div>
 
-      {/* Explanation on wrong (brief) */}
       {props.feedback === "wrong" && (
-        <p className="text-xs italic text-[color:var(--color-blood)]/90">{question.explain}</p>
+        <p className="gothic-serif text-xs italic text-[color:var(--color-blood)]">
+          {question.explain}
+        </p>
       )}
 
       {/* Actions */}
-      <div className="mt-auto flex flex-col gap-2">
-        <PrimaryButton onClick={props.onSubmit} disabled={props.selected === null || props.locked}>
+      <div className="mt-auto flex flex-col gap-2 pt-2">
+        <button
+          onClick={props.onSubmit}
+          disabled={props.selected === null || props.locked}
+          className="btn-seal disabled:opacity-40"
+        >
           Confirmar resposta
-        </PrimaryButton>
+        </button>
 
-        {/* Ability row */}
         <div className="flex flex-wrap gap-2">
           {props.character.id === "kael" && (
             <MiniButton onClick={props.onSense} disabled={props.senseUsedInRoom || props.selected === null || props.locked}>
@@ -530,7 +612,7 @@ function PlayingScreen(props: {
           )}
           {props.character.id === "serena" && (
             <MiniButton onClick={props.onListen} disabled={props.listenUsedInRoom || props.locked}>
-              ◐ Escutar (−1 errada)
+              ◐ Escutar
             </MiniButton>
           )}
           {props.character.id === "marcus" && (
@@ -538,12 +620,12 @@ function PlayingScreen(props: {
               onClick={props.onTransmute}
               disabled={props.transmuteUsed || props.feedback !== "wrong"}
             >
-              ✧ Transmutar erro
+              ✧ Transmutar
             </MiniButton>
           )}
-          <MiniButton onClick={props.onAskAlgrim}>Perguntar a Algrim</MiniButton>
+          <MiniButton onClick={props.onAskAlgrim}>Algrim</MiniButton>
           <MiniButton onClick={() => props.onAskMonk(monkIdx)} disabled={props.monksUsed.includes(monkIdx)}>
-            Monge {["Ígneo","Fluído","Terreno","Etéreo"][monkIdx]}
+            Monge {["Ígneo", "Fluído", "Terreno", "Etéreo"][monkIdx]}
           </MiniButton>
         </div>
       </div>
@@ -555,33 +637,59 @@ function RoomOutro({ roomIdx, onNext }: { roomIdx: number; onNext: () => void })
   const room = ROOMS[roomIdx];
   const isLast = roomIdx === ROOMS.length - 1;
   return (
-    <div className="flex flex-1 flex-col justify-between gap-6 py-4 animate-rise">
+    <div className="flex flex-1 flex-col justify-between gap-6 py-2 animate-rise">
       <div className="text-center">
-        <p className="text-xs uppercase tracking-[0.4em] text-primary/70">Porta aberta</p>
-        <h2 className="mt-2 text-2xl" style={{ color: room.color }}>Sala do {room.element} completada</h2>
+        <p className="gothic-serif text-xs uppercase tracking-[0.4em] text-[color:var(--color-blood)]/80">
+          Porta aberta
+        </p>
+        <h2 className="mt-2 text-2xl blackletter">Sala do {room.element} completada</h2>
       </div>
-      <div className="stone-panel rounded-xl p-5 text-sm leading-relaxed">
-        <p className="text-primary">O que você aprendeu:</p>
-        <p className="mt-2">{room.outro}</p>
-      </div>
-      <PrimaryButton onClick={onNext}>{isLast ? "Alcançar o topo" : "Subir mais um andar"}</PrimaryButton>
+      <Panel>
+        <p className="gothic-serif uppercase tracking-widest text-xs text-[color:var(--color-blood)]">
+          Ex libris — O que você aprendeu
+        </p>
+        <div className="gilded-rule my-2" />
+        <p className="text-[15px] leading-relaxed">{room.outro}</p>
+      </Panel>
+      <button onClick={onNext} className="btn-seal">
+        {isLast ? "Alcançar o topo" : "Subir mais um andar"}
+      </button>
     </div>
   );
 }
 
 function TwistScreen({ onNext }: { onNext: () => void }) {
   return (
-    <div className="flex flex-1 flex-col justify-between gap-6 py-4 animate-rise">
-      <h2 className="text-center text-2xl text-[color:var(--color-arcane)]">O Coração de Glacia</h2>
-      <div className="stone-panel rune-border rounded-xl p-5 text-sm leading-relaxed animate-flicker">
-        <p>No altar, a pedra brilha. Fria. Simples. Você a toca…</p>
-        <p className="mt-2 italic text-muted-foreground">…e ela é apenas <b>gelo</b>. Água comum, cristalizada.</p>
-        <p className="mt-3">Um sussurro ecoa pela torre:</p>
-        <p className="mt-2 text-primary">"A pedra não purifica nada. Nunca purificou."</p>
-        <p className="mt-3">Você entende. O gás verde não some com magia. Some com <b>conhecimento</b> — sabendo o que ele é, como reage, como neutralizá-lo.</p>
-        <p className="mt-2 italic">O verdadeiro Coração de Glacia sempre foi a química que você aprendeu para chegar até aqui.</p>
+    <div className="flex flex-1 flex-col justify-between gap-4 py-2 animate-rise">
+      <h2 className="text-center text-3xl blackletter text-[color:var(--color-ice)]">
+        O Coração de Glacia
+      </h2>
+      <div className="plate mx-auto w-full overflow-hidden rounded">
+        <img
+          src={heartGlacia}
+          alt="Coração de Glacia — uma pedra de gelo comum"
+          width={1024}
+          height={768}
+          loading="lazy"
+          className="h-48 w-full object-cover"
+        />
       </div>
-      <PrimaryButton onClick={onNext}>Descer da torre</PrimaryButton>
+      <Panel className="animate-flicker text-[15px] leading-relaxed">
+        <p className="dropcap">No altar, a pedra brilha. Fria. Simples. Você a toca…</p>
+        <p className="mt-2 italic">…e ela é apenas <b>gelo</b>. Água comum, cristalizada.</p>
+        <p className="mt-3">Um sussurro ecoa pela torre:</p>
+        <p className="mt-2 gothic-serif text-[color:var(--color-blood)]">
+          "A pedra não purifica nada. Nunca purificou."
+        </p>
+        <p className="mt-3">
+          Você entende. O gás verde não some com magia. Some com <b>conhecimento</b> —
+          sabendo o que ele é, como reage, como neutralizá-lo.
+        </p>
+        <p className="mt-2 italic">
+          O verdadeiro Coração de Glacia sempre foi a química que você aprendeu para chegar até aqui.
+        </p>
+      </Panel>
+      <button onClick={onNext} className="btn-seal">Descer da torre</button>
     </div>
   );
 }
@@ -600,14 +708,18 @@ function EndScreen({
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-6 text-center animate-rise">
       <h2
-        className="text-3xl"
+        className="text-4xl blackletter"
         style={{ color: tone === "victory" ? "var(--color-poison)" : "var(--color-blood)" }}
       >
         {title}
       </h2>
-      <p className="stone-panel rounded-xl p-5 text-sm leading-relaxed">{message}</p>
-      <p className="text-xs uppercase tracking-widest text-muted-foreground">Fim do jogo</p>
-      <PrimaryButton onClick={onRestart}>Jogar novamente</PrimaryButton>
+      <Panel className="text-[15px] leading-relaxed">
+        <p>{message}</p>
+      </Panel>
+      <p className="gothic-serif text-xs uppercase tracking-[0.4em] text-[color:var(--color-ink)]/60">
+        Finis
+      </p>
+      <button onClick={onRestart} className="btn-seal">Jogar novamente</button>
     </div>
   );
 }
@@ -624,61 +736,45 @@ function NpcModal({
   onClose: () => void;
 }) {
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/70 p-4 backdrop-blur-sm" onClick={onClose}>
-      <div
-        className="stone-panel w-full max-w-md rounded-xl p-5 animate-rise"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="flex items-baseline justify-between">
-          <div>
-            <p className="text-lg text-primary">{name}</p>
-            <p className="text-xs italic text-muted-foreground">{subtitle}</p>
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/75 p-4 backdrop-blur-sm" onClick={onClose}>
+      <div className="parchment illuminated w-full max-w-md rounded-md p-5 animate-rise" onClick={(e) => e.stopPropagation()}>
+        <span className="illum-corner tl" />
+        <span className="illum-corner tr" />
+        <span className="illum-corner bl" />
+        <span className="illum-corner br" />
+        <div className="relative">
+          <div className="flex items-baseline justify-between">
+            <div>
+              <p className="gothic-serif text-xl text-[color:var(--color-blood)]">{name}</p>
+              <p className="text-xs italic text-[color:var(--color-ink)]/70">— {subtitle}</p>
+            </div>
+            <button className="text-[color:var(--color-ink)]/70 hover:text-[color:var(--color-blood)]" onClick={onClose} aria-label="Fechar">
+              ✕
+            </button>
           </div>
-          <button className="text-muted-foreground" onClick={onClose} aria-label="Fechar">✕</button>
+          <div className="gilded-rule my-3" />
+          <p className="text-[15px] leading-relaxed">{line}</p>
+          <button onClick={onClose} className="btn-ghost mt-4 w-full">Voltar à sala</button>
         </div>
-        <p className="mt-4 text-sm leading-relaxed">{line}</p>
-        <button
-          className="mt-4 w-full rounded-md border border-border py-2 text-xs uppercase tracking-widest text-muted-foreground hover:border-primary"
-          onClick={onClose}
-        >
-          Voltar à sala
-        </button>
       </div>
     </div>
   );
 }
 
-/* ---------- Buttons ---------- */
-
-function PrimaryButton({ children, onClick, disabled }: { children: React.ReactNode; onClick: () => void; disabled?: boolean }) {
+function MiniButton({
+  children,
+  onClick,
+  disabled,
+}: {
+  children: React.ReactNode;
+  onClick: () => void;
+  disabled?: boolean;
+}) {
   return (
     <button
       onClick={onClick}
       disabled={disabled}
-      className="w-full rounded-md border border-primary/60 bg-primary/15 py-3 text-sm uppercase tracking-widest text-primary transition hover:bg-primary/25 disabled:opacity-40"
-    >
-      {children}
-    </button>
-  );
-}
-
-function GhostButton({ children, onClick }: { children: React.ReactNode; onClick: () => void }) {
-  return (
-    <button
-      onClick={onClick}
-      className="w-full rounded-md border border-border py-3 text-xs uppercase tracking-widest text-muted-foreground transition hover:border-primary hover:text-primary"
-    >
-      {children}
-    </button>
-  );
-}
-
-function MiniButton({ children, onClick, disabled }: { children: React.ReactNode; onClick: () => void; disabled?: boolean }) {
-  return (
-    <button
-      onClick={onClick}
-      disabled={disabled}
-      className="rounded-md border border-border bg-secondary/40 px-2.5 py-1.5 text-[11px] uppercase tracking-wider text-muted-foreground transition hover:border-primary hover:text-primary disabled:opacity-40"
+      className="gothic-serif rounded-full border border-[color:var(--color-ink)]/40 bg-[color:var(--color-parchment)]/60 px-3 py-1.5 text-[11px] uppercase tracking-wider text-[color:var(--color-ink)] transition hover:border-[color:var(--color-blood)] hover:text-[color:var(--color-blood)] disabled:opacity-35"
     >
       {children}
     </button>
