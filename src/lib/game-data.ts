@@ -70,35 +70,34 @@ export const ROOMS: Room[] = [
     id: 1,
     element: "Fogo",
     title: "Sala do Fogo",
-    theme: "Radioatividade",
+    theme: "Combustão e Reações Químicas",
     color: "oklch(0.65 0.2 40)",
     intro:
-      "A pedra púrpura pulsa no centro da sala. Kael sente o gosto amargo na língua. — Está aqui — sussurra. A radiação. A porta só abre para quem entende o que decai.",
+      "A chama dança no centro da sala. O calor é real. A luz é real. — O fogo transforma — Marcus segura a mão. — A combustão é a reação mais antiga e mais perigosa que existe.",
     outro:
-      "Você aprendeu: radioatividade é a emissão espontânea de partículas (α, β) e radiação (γ) por núcleos instáveis. A meia-vida é o tempo para metade dos núcleos decaírem.",
-    questions: [
+      "Você aprendeu: combustão é uma reação química entre um combustível e o oxigênio, liberando luz e calor. Combustíveis podem ser sólidos, líquidos ou gasosos. O gás carbônico (CO₂) e a água (H₂O) são produtos comuns da combustão completa. [
       {
-        q: "O que é a meia-vida de um elemento radioativo?",
-        options: [
-          "O tempo total até todos os átomos decaírem",
-          "O tempo para metade dos núcleos radioativos decaírem",
-          "A metade da massa atômica do elemento",
-          "O tempo em que o elemento emite luz",
-        ],
-        answer: 1,
-        explain: "Meia-vida (t½) é o intervalo em que 50% dos núcleos instáveis se desintegram.",
+       q: "Qual dos seguintes é um combustível fóssil?",
+  options: [
+    "Álcool",
+    "Petróleo",
+    "Madeira",
+    "Carvão",
+  ],
+  answer: 1, // Petróleo
+  explain: "Petróleo é um combustível fóssil, formado por restos de seres vivos ao longo de milhões de anos.",
       },
       {
-        q: "Qual dessas partículas tem MAIOR poder de penetração?",
-        options: ["Alfa (α)", "Beta (β)", "Gama (γ)", "Nêutron térmico"],
+        q: "Um átomo neutro tem distribuição 1s² 2s² 2p⁶ 3s² 3p⁵. A qual período e família ele pertence?",
+        options: ["3° perído, família 5A (Fósforo)", "2° período, família 5A (Nitrogênio) ", "3° período, família 7A (Cloro)", "4° período, família 7A (Bromo)"],
         answer: 2,
-        explain: "Radiação gama é onda eletromagnética de alta energia — atravessa até chumbo fino.",
+        explain: "A camada de valência 3s² 3p⁵ tem 7 elétrons — isso é a família dos halogênios. Esse átomo é o Cloro!",
       },
       {
-        q: "Um isótopo tem meia-vida de 10 anos. Após 30 anos, que fração da amostra original resta?",
-        options: ["1/2", "1/4", "1/8", "1/16"],
-        answer: 2,
-        explain: "3 meias-vidas: (1/2)³ = 1/8 da amostra original.",
+        q: "Sobre a organização da tabela periódica, qual afirmação é CORRETA?",
+        options: ["Os gases nobres da (família 8°A) são estáveis e pouco reativos", "Todos os metais são líquidos à temperatura ambiente", "Os ametais ficam no lado esquerdo da tabela", "O hidrogênio é um metal alcalino típico"],
+        answer: 0,
+        explain: "Gases nobres (He, Ne, Ar, Kr, Xe, Rn) têm camada de valência completa — por isso quase não reagem.",
       },
       {
         q: "Qual elemento é usado como combustível em reatores nucleares e possui isótopos radioativos naturais?",
@@ -107,15 +106,15 @@ export const ROOMS: Room[] = [
         explain: "O urânio-235 é físsil e usado como combustível em reatores nucleares.",
       },
       {
-        q: "Ao emitir uma partícula alfa, o núcleo perde:",
+        q: "Um átomo neutro possui número atômico Z = 19 e número de massa A = 39. Quantos prótons, nêutrons e elétrons ele possui?",
         options: [
-          "1 próton e 1 nêutron",
-          "2 prótons e 2 nêutrons",
-          "1 elétron apenas",
-          "Somente energia, sem partículas",
+          "19 prótons, 20 nêutrons e 19 elétrons",
+          "19 prótons, 19 nêutrons e 20 elétrons",
+          "20 prótons, 19 nêutrons e 19 elétrons",
+          "39 prótons, 20 nêutrons e 39 elétrons",
         ],
-        answer: 1,
-        explain: "Partícula α é um núcleo de hélio: 2 prótons + 2 nêutrons.",
+        answer: 0,
+        explain: "Z = prótons = elétrons (átomo neutro) = 19. Nêutrons = A − Z = 39 − 19 = 20. É o Potássio (K).",
       },
     ],
   },
@@ -128,18 +127,18 @@ export const ROOMS: Room[] = [
     intro:
       "Água negra escorre pelas paredes. No centro, dois metais mergulhados em soluções zumbem. — Uma pilha viva — diz Elara. — Só passa quem entende para onde os elétrons fluem.",
     outro:
-      "Você aprendeu: em pilhas, oxidação (perde elétrons) ocorre no ânodo e redução (ganha elétrons) no cátodo. Os elétrons fluem do ânodo para o cátodo pelo fio externo.",
+      "Penas negras riscam o pergaminho seguindo o diagrama de Linus Pauling. 's, p, d, f... a ordem energética é a chave.",
     questions: [
       {
-        q: "Em uma pilha galvânica, os elétrons fluem pelo fio externo:",
+        q: "Segundo o diagrama de Pauling, qual é a camada de valência do Cálcio (Z = 20) e quantos elétrons ela possui?",
         options: [
-          "Do cátodo para o ânodo",
-          "Do ânodo para o cátodo",
-          "Nos dois sentidos alternadamente",
-          "Não fluem — só há íons",
+          "camada M (n=3) com 8 elétrons",
+          "camada N (n=4) com 2 elétrons",
+          "camada N (n=4), com 8 elétrons",
+          "camada L (n=2), com 2 elétrons",
         ],
         answer: 1,
-        explain: "Ânodo (oxida, perde e⁻) → Cátodo (reduz, ganha e⁻).",
+        explain: "Ca (Z=20): 1s² 2s² 2p⁶ 3s² 3p⁶ 4s². A última camada é N (n=4), com 2 elétrons — por isso é da família 2A.",
       },
       {
         q: "Oxidação é o processo em que uma espécie:",
@@ -153,90 +152,105 @@ export const ROOMS: Room[] = [
         explain: "OxIdação = perde elétrons. Mnemônico: OIL RIG (Oxidation Is Loss).",
       },
       {
-        q: "Numa pilha de Daniell (Zn/Cu²⁺), qual é o ânodo?",
-        options: ["Cobre (Cu)", "Zinco (Zn)", "A ponte salina", "O eletrodo padrão de hidrogênio"],
-        answer: 1,
-        explain: "Zn tem maior potencial de oxidação, sofre oxidação — é o ânodo.",
-      },
-      {
-        q: "A função da ponte salina em uma pilha é:",
-        options: [
-          "Conduzir elétrons entre os eletrodos",
-          "Manter o equilíbrio de cargas nas soluções",
-          "Aumentar a voltagem da pilha",
-          "Impedir a oxidação",
-        ],
-        answer: 1,
-        explain: "A ponte salina permite migração de íons, mantendo neutralidade elétrica.",
-      },
-      {
-        q: "Se E°(Cu²⁺/Cu) = +0,34 V e E°(Zn²⁺/Zn) = −0,76 V, a ddp padrão da pilha Zn|Cu é:",
-        options: ["+0,42 V", "+1,10 V", "−1,10 V", "+0,76 V"],
-        answer: 1,
-        explain: "ΔE° = E°cátodo − E°ânodo = 0,34 − (−0,76) = +1,10 V.",
-      },
+       q: "A água do mar conduz eletricidade. Qual é o principal motivo para isso?",
+      options: [
+        "Porque a água é um metal líquido",
+        "Porque contém sais dissolvidos (íons)",
+        "Porque a água pura é condutora",
+        "Porque o oxigênio da água conduz",
+      ],
+      answer: 1,
+      explain: "A água do mar conduz eletricidade porque contém sais dissolvidos (NaCl) que se separam em íons (Na⁺ e Cl⁻), permitindo a passagem da corrente elétrica."
+    },
+    {
+        q: "O que acontece com o pH da água da chuva quando o CO₂ se dissolve?",
+      options: [
+        "A água fica mais ácida",
+        "A água fica mais básica",
+        "O pH não se altera",
+        "A água congela",
+      ],
+      answer: 0,
+      explain: "O CO₂ reage com a água formando ácido carbônico (H₂CO₃), que libera íons H⁺ e deixa a água mais ácida (pH menor)."
+    },
+    {
+        q: "O que acontece com os íons Na⁺ e Cl⁻ quando a água do mar evapora?",
+  options: [
+    "Eles viram gás e somem",
+    "Eles se juntam de volta formando sal (NaCl)",
+    "Eles se transformam em água pura",
+    "Eles viram oxigênio e hidrogênio",
+  ],
+  answer: 1,
+  explain: "Quando a água evapora, os íons Na⁺ e Cl⁻ se aproximam e formam novamente o sal (NaCl), que fica depositado."
+},
     ],
   },
   {
     id: 3,
     element: "Terra",
     title: "Sala da Terra",
-    theme: "Cinética Química",
+    theme: "TABELA PERIÓDICA",
     color: "oklch(0.55 0.12 100)",
     intro:
       "Raízes de pedra rastejam pelo chão. Um relógio de areia gigante marca o tempo. — Aqui — Serena escuta — velocidade é vida. Quem reage tarde… vira estátua.",
     outro:
-      "Você aprendeu: cinética estuda a velocidade das reações. Catalisadores diminuem a energia de ativação sem serem consumidos. Temperatura, concentração e superfície de contato também afetam a velocidade.",
+      "A rocha se abre. A tabela brilha. A porta se revela. O último sussurro ecoa: 'Os períodos são horizontais, as famílias, verticais. A Tabela Periódica é o mapa de tudo.",
     questions: [
       {
-        q: "Um catalisador atua em uma reação:",
-        options: [
-          "Aumentando a energia de ativação",
-          "Diminuindo a energia de ativação",
-          "Sendo totalmente consumido",
-          "Mudando os produtos formados",
-        ],
-        answer: 1,
-        explain: "Catalisadores oferecem um caminho de menor energia de ativação, sem serem consumidos.",
+        q: "Na Tabela Periódica, as colunas verticais são chamadas de:",
+      options: [
+        "Períodos",
+        "Famílias ou grupos",
+        "Séries",
+        "Camadas eletrônicas",
+      ],
+      answer: 1,
+      explain: "As colunas verticais são as famílias ou grupos. As linhas horizontais são os períodos."
       },
       {
-        q: "Ao AUMENTAR a temperatura, a velocidade de uma reação geralmente:",
-        options: ["Diminui", "Aumenta", "Não muda", "Zera"],
-        answer: 1,
-        explain: "Mais energia cinética → mais colisões efetivas → reação mais rápida.",
+       q: "Na Tabela Periódica, as linhas horizontais são chamadas de:",
+      options: [
+        "Famílias",
+        "Grupos",
+        "Períodos",
+        "Séries químicas",
+      ],
+      answer: 2,
+      explain: "As linhas horizontais são os períodos. Eles indicam o número de camadas eletrônicas."
       },
       {
-        q: "Qual fator NÃO afeta a velocidade de uma reação química?",
-        options: [
-          "Concentração dos reagentes",
-          "Superfície de contato",
-          "Cor do recipiente",
-          "Presença de catalisador",
-        ],
-        answer: 2,
-        explain: "A cor do recipiente não altera colisões nem energia de ativação.",
+       q: "O número atômico (Z) de um elemento representa:",
+      options: [
+        "Número de nêutrons",
+        "Número de prótons",
+        "Massa do átomo",
+        "Número de elétrons na valência",
+      ],
+      answer: 1,
+      explain: "Z = número de prótons no núcleo. É a identidade do elemento."
       },
       {
-        q: "Um comprimido efervescente triturado reage mais rápido que inteiro porque:",
-        options: [
-          "A massa aumenta",
-          "A superfície de contato aumenta",
-          "A temperatura sobe",
-          "O pH muda",
-        ],
-        answer: 1,
-        explain: "Mais superfície exposta → mais colisões por segundo com a água.",
+        q: "Onde estão localizados os metais na Tabela Periódica?",
+      options: [
+        "Lado esquerdo",
+        "Lado direito",
+        "Centro",
+        "Em todas as posições",
+      ],
+      answer: 0,
+      explain: "Os metais ocupam o lado esquerdo e o centro da Tabela Periódica."
       },
       {
-        q: "Energia de ativação (Ea) é:",
-        options: [
-          "A energia liberada pelos produtos",
-          "A energia mínima necessária para iniciar a reação",
-          "A diferença entre reagentes e produtos",
-          "A energia cinética média das moléculas",
-        ],
-        answer: 1,
-        explain: "Ea é a barreira energética mínima para formar o complexo ativado.",
+       q: "Onde estão localizados os ametais na Tabela Periódica?",
+      options: [
+        "Lado esquerdo",
+        "Lado direito",
+        "Centro",
+        "Em todas as posições",
+      ],
+      answer: 1,
+      explain: "Os ametais estão localizados no lado direito da Tabela Periódica.",
       },
     ],
   },
@@ -244,62 +258,67 @@ export const ROOMS: Room[] = [
     id: 4,
     element: "Ar",
     title: "Sala do Ar",
-    theme: "Equilíbrio & Termoquímica",
+    theme: "Gases e Estado Físico da Matéria",
     color: "oklch(0.7 0.12 200)",
     intro:
-      "O vento sussurra fórmulas. Marcus sente o ar denso, quente e frio ao mesmo tempo. — Le Chatelier vigia esta sala — murmura. — Cada escolha desloca o mundo.",
+      "O vento sussurra fórmulas. O ar está invisível, mas está aqui. — Quem respira — Serena sussurra — precisa entender o que o ar tem. E o que ele não tem.",
     outro:
-      "Você aprendeu: sistemas em equilíbrio respondem a perturbações (Le Chatelier). Reações exotérmicas liberam calor (ΔH < 0); endotérmicas absorvem calor (ΔH > 0).",
+      "Você aprendeu: gases têm massa, ocupam volume, se expandem, se comprimem. O ar é uma mistura de gases. A atmosfera é a camada de ar ao redor da Terra.",
     questions: [
       {
-        q: "Segundo Le Chatelier, aumentar a concentração de um reagente desloca o equilíbrio:",
-        options: [
-          "Para os reagentes",
-          "Para os produtos",
-          "Não afeta o equilíbrio",
-          "Interrompe a reação",
-        ],
-        answer: 1,
-        explain: "O sistema 'consome' o excesso, deslocando no sentido dos produtos.",
+        q: "O ar é formado principalmente por qual gás?",
+      options: [
+        "Oxigênio (O₂)",
+        "Nitrogênio (N₂)",
+        "Gás carbônico (CO₂)",
+        "Hidrogênio (H₂)",
+      ],
+      answer: 1,
+      explain: "O ar é composto principalmente por nitrogênio (78%), seguido de oxigênio (21%).",
       },
       {
-        q: "Uma reação exotérmica tem:",
-        options: ["ΔH > 0", "ΔH < 0", "ΔH = 0", "ΔS < 0 sempre"],
-        answer: 1,
-        explain: "Exotérmica libera calor → entalpia dos produtos < reagentes → ΔH negativo.",
+         q: "Qual gás é liberado na respiração e absorvido pelas plantas na fotossíntese?",
+      options: [
+        "Oxigênio (O₂)",
+        "Nitrogênio (N₂)",
+        "Gás carbônico (CO₂)",
+        "Hidrogênio (H₂)",
+      ],
+      answer: 2,
+      explain: "Na respiração, liberamos CO₂. Na fotossíntese, as plantas absorvem CO₂ para produzir oxigênio.",
       },
       {
-        q: "Na reação N₂ + 3H₂ ⇌ 2NH₃ (exotérmica), aumentar a temperatura:",
-        options: [
-          "Aumenta a produção de NH₃",
-          "Diminui a produção de NH₃",
-          "Não altera nada",
-          "Congela a reação",
-        ],
-        answer: 1,
-        explain: "Sistema absorve o calor extra, deslocando no sentido endotérmico (reagentes).",
+      q: "O ar ocupa espaço. Isso significa que ele tem:",
+      options: [
+        "Volume",
+        "Cor",
+        "Cheiro",
+        "Sabor",
+      ],
+      answer: 0,
+      explain: "Gases ocupam volume. O ar tem massa, ocupa espaço e pode ser comprimido e expandido.",
       },
       {
-        q: "A queima de combustível é um exemplo de reação:",
-        options: [
-          "Endotérmica",
-          "Exotérmica",
-          "Sem variação de energia",
-          "Nuclear",
-        ],
-        answer: 1,
-        explain: "Combustão libera calor e luz → exotérmica (ΔH < 0).",
+       q: "O ar quente sobe. Isso acontece porque:",
+      options: [
+        "O ar quente é mais denso",
+        "O ar quente é menos denso",
+        "O ar quente tem mais peso",
+        "O ar quente não se move",
+      ],
+      answer: 1,
+      explain: "Ar quente é menos denso que o ar frio, por isso sobe.",
       },
       {
-        q: "Aumentar a pressão em N₂(g) + 3H₂(g) ⇌ 2NH₃(g) desloca o equilíbrio para:",
-        options: [
-          "Os reagentes (4 mols de gás)",
-          "Os produtos (2 mols de gás)",
-          "Não desloca",
-          "Depende apenas da temperatura",
-        ],
-        answer: 1,
-        explain: "Le Chatelier: pressão ↑ desloca para o lado com menos mols gasosos (produtos).",
+          q: "A pressão atmosférica é maior:",
+      options: [
+        "No topo das montanhas",
+        "Ao nível do mar",
+        "No espaço",
+        "No interior da Terra",
+      ],
+      answer: 1,
+      explain: "A pressão atmosférica é maior ao nível do mar porque há mais ar acima.",
       },
     ],
   },
@@ -307,31 +326,31 @@ export const ROOMS: Room[] = [
 
 export const ALGRIM_LINES = [
   "Ah, pelo amor... Acertem as malditas perguntas! A torre não quer saber se você é corajoso. Quer saber se você sabe química.",
-  "Já pensou em ler um livro? Não? Pois é. Nem eu tenho paciência hoje.",
+  "Já pensou em ler um livro? Não? Pois é. Nem eu.",
   "Dica? Toda resposta certa parece óbvia depois. Foque no VERBO da pergunta.",
   "Se a pergunta tem número, olhe os números das opções. Se tem palavra, olhe o significado. Simples.",
   "Elimine o absurdo primeiro. Sobra menos coisa para errar.",
 ];
 
 export const MONK_HINTS: Record<number, string[]> = {
-  1: [
-    "Meia-vida é METADE. Não é o fim. É o meio.",
-    "Gama > Beta > Alfa em penetração. Alfa é papel, gama é chumbo.",
-    "Alfa carrega 2 prótons e 2 nêutrons — é um núcleo de hélio.",
+   1: [
+    "Petróleo, carvão e gás natural. Tudo veio de seres vivos antigos.",
+    "Combustão precisa de três coisas. Sem uma, o fogo morre.",
+    "O oxigênio é o que sustenta a chama. Sem ele, só fumaça.",
   ],
   2: [
-    "Ânodo oxida. Cátodo reduz. Elétrons vão do ânodo ao cátodo pelo fio.",
-    "Quem tem MENOR potencial de redução é o ânodo (oxida mais fácil).",
-    "ΔE° = E°(cátodo) − E°(ânodo). Sinais importam.",
+    "Na água salgada, o que conduz não é a água. São os íons.",
+    "Sal na água vira Na⁺ e Cl⁻. Isso que a eletricidade ama.",
+    "Água pura não conduz. É a sujeira que faz o trabalho.",
   ],
   3: [
-    "Catalisador não muda o produto. Muda o CAMINHO.",
-    "Mais superfície → mais colisões. Sempre.",
-    "Ea é a montanha. Catalisador cava um túnel mais baixo.",
+    "A Tabela Periódica tem linhas e colunas. Cada uma tem um nome.",
+    "Metais à esquerda. Ametais à direita. Gases nobres à extrema direita.",
+    "O número atômico é a identidade do átomo. Não confunda com a massa.",
   ],
   4: [
-    "Le Chatelier: o sistema reage CONTRA a perturbação.",
-    "Exo libera calor. Aumentar T é 'adicionar produto' num sentido — o equilíbrio foge.",
-    "Pressão só afeta gases. Conte os mols gasosos dos dois lados.",
+    "O ar é invisível. Mas ele pesa. Ele ocupa espaço. Ele existe.",
+    "Nitrogênio é o que mais tem no ar. Oxigênio vem depois.",
+    "Ar quente sobe porque é mais leve que o ar frio. Sempre.",
   ],
 };
