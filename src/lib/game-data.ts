@@ -83,8 +83,7 @@ export const ROOMS: Room[] = [
     "Álcool",
     "Petróleo",
     "Madeira",
-    "Carvão",
-  ],
+    "Carvão"],
   answer: 1, // Petróleo
   explain: "Petróleo é um combustível fóssil, formado por restos de seres vivos ao longo de milhões de anos.",
       },
@@ -112,7 +111,7 @@ export const ROOMS: Room[] = [
           "19 prótons, 20 nêutrons e 19 elétrons",
           "19 prótons, 19 nêutrons e 20 elétrons",
           "20 prótons, 19 nêutrons e 19 elétrons",
-          "39 prótons, 20 nêutrons e 39 elétrons",
+          "39 prótons, 20 nêutrons e 39 elétrons"
         ],
         answer: 0,
         explain: "Z = prótons = elétrons (átomo neutro) = 19. Nêutrons = A − Z = 39 − 19 = 20. É o Potássio (K).",
@@ -136,7 +135,7 @@ export const ROOMS: Room[] = [
           "camada M (n=3) com 8 elétrons",
           "camada N (n=4) com 2 elétrons",
           "camada N (n=4), com 8 elétrons",
-          "camada L (n=2), com 2 elétrons",
+          "camada L (n=2), com 2 elétrons"
         ],
         answer: 1,
         explain: "Ca (Z=20): 1s² 2s² 2p⁶ 3s² 3p⁶ 4s². A última camada é N (n=4), com 2 elétrons — por isso é da família 2A.",
@@ -147,7 +146,7 @@ export const ROOMS: Room[] = [
           "Ganha elétrons",
           "Perde elétrons",
           "Ganha prótons",
-          "Perde nêutrons",
+          "Perde nêutrons"
         ],
         answer: 1,
         explain: "OxIdação = perde elétrons. Mnemônico: OIL RIG (Oxidation Is Loss).",
@@ -161,7 +160,7 @@ export const ROOMS: Room[] = [
         "Porque o oxigênio da água conduz",
       ],
       answer: 1,
-      explain: "A água do mar conduz eletricidade porque contém sais dissolvidos (NaCl) que se separam em íons (Na⁺ e Cl⁻), permitindo a passagem da corrente elétrica."
+      explain: "A água do mar conduz eletricidade porque contém sais dissolvidos (NaCl) que se separam em íons (Na⁺ e Cl⁻), permitindo a passagem da corrente elétrica.",
     },
     {
         q: "O que acontece com o pH da água da chuva quando o CO₂ se dissolve?",
@@ -172,7 +171,7 @@ export const ROOMS: Room[] = [
         "A água congela",
       ],
       answer: 0,
-      explain: "O CO₂ reage com a água formando ácido carbônico (H₂CO₃), que libera íons H⁺ e deixa a água mais ácida (pH menor)."
+      explain: "O CO₂ reage com a água formando ácido carbônico (H₂CO₃), que libera íons H⁺ e deixa a água mais ácida (pH menor).",
     },
     {
         q: "O que acontece com os íons Na⁺ e Cl⁻ quando a água do mar evapora?",
@@ -183,7 +182,7 @@ export const ROOMS: Room[] = [
     "Eles viram oxigênio e hidrogênio",
   ],
   answer: 1,
-  explain: "Quando a água evapora, os íons Na⁺ e Cl⁻ se aproximam e formam novamente o sal (NaCl), que fica depositado."
+  explain: "Quando a água evapora, os íons Na⁺ e Cl⁻ se aproximam e formam novamente o sal (NaCl), que fica depositado.",
 },
     ],
   },
@@ -207,7 +206,7 @@ export const ROOMS: Room[] = [
         "Camadas eletrônicas",
       ],
       answer: 1,
-      explain: "As colunas verticais são as famílias ou grupos. As linhas horizontais são os períodos."
+      explain: "As colunas verticais são as famílias ou grupos. As linhas horizontais são os períodos.",
       },
       {
        q: "Na Tabela Periódica, as linhas horizontais são chamadas de:",
@@ -218,7 +217,7 @@ export const ROOMS: Room[] = [
         "Séries químicas",
       ],
       answer: 2,
-      explain: "As linhas horizontais são os períodos. Eles indicam o número de camadas eletrônicas."
+      explain: "As linhas horizontais são os períodos. Eles indicam o número de camadas eletrônicas.",
       },
       {
        q: "O número atômico (Z) de um elemento representa:",
@@ -229,7 +228,7 @@ export const ROOMS: Room[] = [
         "Número de elétrons na valência",
       ],
       answer: 1,
-      explain: "Z = número de prótons no núcleo. É a identidade do elemento."
+      explain: "Z = número de prótons no núcleo. É a identidade do elemento.",
       },
       {
         q: "Onde estão localizados os metais na Tabela Periódica?",
@@ -240,7 +239,7 @@ export const ROOMS: Room[] = [
         "Em todas as posições",
       ],
       answer: 0,
-      explain: "Os metais ocupam o lado esquerdo e o centro da Tabela Periódica."
+      explain: "Os metais ocupam o lado esquerdo e o centro da Tabela Periódica.",
       },
       {
        q: "Onde estão localizados os ametais na Tabela Periódica?",
