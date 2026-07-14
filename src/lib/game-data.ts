@@ -75,7 +75,7 @@ export const ROOMS: Room[] = [
     intro:
       "A chama dança no centro da sala. O calor é real. A luz é real. — O fogo transforma — Marcus segura a mão. — A combustão é a reação mais antiga e mais perigosa que existe.",
     outro:
-      "Você aprendeu: combustão é uma reação química entre um combustível e o oxigênio, liberando luz e calor. Combustíveis podem ser sólidos, líquidos ou gasosos. O gás carbônico (CO₂) e a água (H₂O) são produtos comuns da combustão completa. [
+      "Você aprendeu: combustão é uma reação química entre um combustível e o oxigênio, liberando luz e calor. Combustíveis podem ser sólidos, líquidos ou gasosos. O gás carbônico (CO₂) e a água (H₂O) são produtos comuns da combustão completa.",
       {
        q: "Qual dos seguintes é um combustível fóssil?",
   options: [
