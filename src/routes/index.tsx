@@ -11,6 +11,8 @@ import roomWater from "@/assets/room-water.jpg";
 import roomEarth from "@/assets/room-earth.jpg";
 import roomAir from "@/assets/room-air.jpg";
 import heartGlacia from "@/assets/heart-glacia.jpg";
+import { ChallengeScreen } from "@/components/ChallengeScreen";
+import { CHARACTER_CHALLENGES } from "@/lib/game-data";
 
 export const Route = createFileRoute("/")({
   head: () => ({
