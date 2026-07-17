@@ -120,6 +120,26 @@ setChallengeResult({});
     const nextQ = playing.qIdx + 1;
     if (nextQ >= room.questions.length) {
       setScreen({ kind: "gameover" });
+      function resetGame() {
+  setCharacter(null);
+  setHp(MAX_HP);
+  setFeedback(null);
+  setSelected(null);
+  setLocked(false);
+  setMonksUsed([]);
+  setAlgrimIdx(0);
+  setShowAlgrim(false);
+  setShowMonk(null);
+  setHealUsed(false);
+  setTransmuteUsed(false);
+  setSenseUsedInRoom(false);
+  setListenUsedInRoom(false);
+  setEliminated([]);
+  setSenseReveal(null);
+  setChallengeCompleted({});
+  setChallengeResult({});
+  setScreen({ kind: "title" });
+}
       return;
     }
     setScreen({ kind: "playing", roomIdx: playing.roomIdx, qIdx: nextQ, correctInRoom: newCorrect });
