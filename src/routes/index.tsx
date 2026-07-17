@@ -62,6 +62,8 @@ function MasmorraGame() {
   const [screen, setScreen] = useState<Screen>({ kind: "title" });
   const [character, setCharacter] = useState<Character | null>(null);
   const [hp, setHp] = useState(MAX_HP);
+  const [challengeCompleted, setChallengeCompleted] = useState<Record<string, boolean>>({});
+const [challengeResult, setChallengeResult] = useState<Record<string, "success" | "failure" | null>>({});
   const [feedback, setFeedback] = useState<Feedback>(null);
   const [selected, setSelected] = useState<number | null>(null);
   const [locked, setLocked] = useState(false);
@@ -92,6 +94,8 @@ function MasmorraGame() {
     setListenUsedInRoom(false);
     setEliminated([]);
     setSenseReveal(null);
+    setChallengeCompleted({});
+setChallengeResult({});
   }
 
   function startRoom(roomIdx: number) {
@@ -224,6 +228,25 @@ function MasmorraGame() {
       {screen.kind === "room-intro" && (
         <RoomIntro roomIdx={screen.roomIdx} onEnter={() => enterRoom(screen.roomIdx)} />
       )}
+      {character && !challengeCompleted[character.id] && (
+  <ChallengeScreen
+    challenge={CHARACTER_CHALLENGES.find(c => c.characterId === character.id)!}
+    characterName={character.name}
+    onComplete={(result) => {
+      setChallengeCompleted(prev => ({ ...prev, [character.id]: true }));
+      setChallengeResult(prev => ({ ...prev, [character.id]: result }));
+      const challenge = CHARACTER_CHALLENGES.find(c => c.characterId === character.id);
+      if (challenge) {
+        if (result === "success") {
+          setHp(prev => Math.min(MAX_HP, prev + 1));
+        } else {
+          setHp(prev => Math.max(0, prev - 2));
+        }
+      }
+      startRoom(0);
+    }}
+  />
+)}
       {screen.kind === "playing" && character && (
         <PlayingScreen
           roomIdx={screen.roomIdx}
